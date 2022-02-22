@@ -28,7 +28,7 @@
     }
 
     //Рандомное число в диапазоне от min до max(не включая max)
-    function randomMinMax(min, max){
+    window.randomMinMax = function(min, max){
         return(Math.floor((Math.random() * (max-min))+min));
     }
 

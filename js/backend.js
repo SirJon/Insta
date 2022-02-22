@@ -2,7 +2,6 @@
     window.backend = function(url, onSuccess, onError){
         var xhr = new XMLHttpRequest();
 
-        console.log(xhr);
         xhr.addEventListener("load", function(){
             var error;
             switch (xhr.status){

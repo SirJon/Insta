@@ -1,4 +1,26 @@
-(function(){   
+(function(){
+    var uploadFile = document.querySelector("#upload-file");  //Находим инпут добавления фотографии
+    var uploadOverlay = document.querySelector(".upload-overlay"); //Находим оверлей редактирования фотографии
+    var overlayCancel = document.querySelector("#upload-cancel"); //Кнопка закрытия оверлея
+
+    function openOverlay(){  //Функция открытия оверлея
+        uploadOverlay.classList.remove("hidden");
+        document.addEventListener("keydown", onOverlayEscPress); //Добавление обработчика нажатия Esc
+    }
+    function closeOverlay(){
+        uploadOverlay.classList.add("hidden");
+        document.removeEventListener("keydown", onOverlayEscPress); //Удаление обработчика нажатия Esc
+        uploadFile.value = ""; //Обнуление инпута чтобы сработал change
+    }
+    function onOverlayEscPress(evt){ //Закрытие оверлея по Esc
+        if (evt.keyCode === 27){
+            closeOverlay();
+        }
+    }
+
+    uploadFile.addEventListener("change", openOverlay);  //При изменении состояния инпута(загрузки фотграфии) показать оверлей
+    overlayCancel.addEventListener("click", closeOverlay); //Закрыть оверлей при нажатии на кнопку
+      
     //Перемещение ползунка обработки фотогрфии
 
     var effectPin = document.querySelector(".upload-effect-level-pin");     //Нашёл пин
