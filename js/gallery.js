@@ -2,6 +2,8 @@
     var instWrapper = document.querySelector(".pictures");                                              //Находим пустой контейнер для наполнения контентом
     var instTemplade = document.querySelector("#picture-template").content.querySelector(".picture");   //Находим ведро для дублирования
     var instFirstBlock = document.querySelector(".gallery-overlay");                                    //Пустой контейнер большой фотографии
+    var socialButton = document.querySelector(".social__button");
+
 
     //Функция заполнения инсты контентом
     window.makeСontent = function(xhrcontent){
@@ -16,20 +18,38 @@
         }
     }
 
-    bigPictureContent = function(i, xhrcontent){
+    var comment = function(i, xhrcontent){        
+        var instCommentsBlock = instFirstBlock.querySelector(".social"); //Находим блок с комментариями
+        var instTempladeComments = document.querySelector("#social-template").content.querySelector(".social__comment"); //Находим ведро для дублирования комментовsocialButton.classList.remove("hidden");
+        var j = 0;
+        var STEP = 5;
+        var jBorder=0;
+        
+        window.fillComment = function(){
+            if (j+STEP < xhrcontent[i].comments.length){
+                jBorder += STEP;
+            } else{
+                jBorder = xhrcontent[i].comments.length;
+                socialButton.classList.add("hidden");
+            }
+            while(j<jBorder){
+                var usersComments = instTempladeComments.cloneNode(true); //Клонируем разметку из ведра
+            
+                usersComments.querySelector("img").src = xhrcontent[i].comments[j].avatar; //В img атрибут src передаём путь к фото аватара
+                usersComments.querySelector(".social__text").textContent = xhrcontent[i].comments[j].message; //Передаём комментарий
+            
+                instCommentsBlock.appendChild(usersComments); //встявляем узел в конец списка дочерних элементов контейнера
+                j++;
+            }
+        }
+        window.fillComment();
+    }
+
+    var bigPictureContent = function(i, xhrcontent){
         instFirstBlock.querySelector(".gallery-overlay-image").src = xhrcontent[i].url; //В img атрибут src передаём путь к фото
         instFirstBlock.querySelector(".comments-count").textContent = xhrcontent[i].comments.length; //Передаём кол-во коментов
         instFirstBlock.querySelector(".likes-count").textContent = xhrcontent[i].likes; //Передаём кол-во лайков
-        var instCommentsBlock = instFirstBlock.querySelector(".social"); //Находим блок с комментариями
-        var instTempladeComments = document.querySelector("#social-template").content.querySelector(".social__comment"); //Находим ведро для дублирования комментов
-        for (var j=0; j<xhrcontent[i].comments.length; j++){ //Цикл добавления комментариев
-            var usersComments = instTempladeComments.cloneNode(true); //Клонируем разметку из ведра
-        
-            usersComments.querySelector("img").src = xhrcontent[i].comments[j].avatar; //В img атрибут src передаём путь к фото аватара
-            usersComments.querySelector(".social__text").textContent = xhrcontent[i].comments[j].message; //Передаём комментарий
-        
-            instCommentsBlock.appendChild(usersComments); //встявляем узел в конец списка дочерних элементов контейнера
-        }
+        comment(i, xhrcontent);
         instFirstBlock.querySelector(".gallery-overlay-controls-comments").classList.add("hidden"); //Скрываем блок счётчика комментов
         var instDescription = instFirstBlock.querySelector(".gallery-overlay-controls-description");  //Находим блок с описанием фотографии
         instDescription.classList.remove("hidden");  //Показываем блок с описанием фотографии
@@ -48,11 +68,15 @@
     function openBigPicture(){                                         //Открытие окна
         instFirstBlock.classList.remove("hidden");
         document.addEventListener("keydown", onBigPictureEscPress);     //Добавление обработчика нажатия Esc
+        socialButton.addEventListener("click", window.fillComment);
+
     }
     function closeBigPicture(){
         instFirstBlock.classList.add("hidden");
         document.removeEventListener("keydown", onBigPictureEscPress);  //Удаление обработчика нажатия Esc
         delComments();
+        socialButton.removeEventListener("click", window.fillComment);
+        socialButton.classList.remove("hidden");
     }
     function onBigPictureEscPress(evt){                                 //Закрытие bigPicture по Esc
         if (evt.keyCode === 27){
