@@ -110,8 +110,8 @@
         var users = data;
         try {
             var xhrcontent = JSON.parse(users);
-            window.makeСontent(xhrcontent);             //Заполняем фотки
-            window.bigPictureOpen(xhrcontent);                 //Открытие большой фотографии
+            window.makeСontent(xhrcontent);                     //Заполняем фотки
+            window.bigPictureOpen(xhrcontent);                  //Открытие большой фотографии
             console.log(xhrcontent);
             window.sorting(xhrcontent);
         }catch(err){

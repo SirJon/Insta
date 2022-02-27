@@ -41,11 +41,6 @@
             "random": randomPhoto
         }
 
-        // console.log("recommendPhoto",recommendPhoto);
-        // console.log("popularPhoto",popularPhoto);
-        // console.log("discussedPhoto",discussedPhoto);
-        // console.log("randomPhoto",randomPhoto);
-
         var delСontent = function(){
             var templadeСontent = document.querySelectorAll(".picture");
             for (var i=0; i<templadeСontent.length; i++){

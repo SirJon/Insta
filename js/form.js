@@ -1,26 +1,4 @@
-(function(){
-    var uploadFile = document.querySelector("#upload-file");  //Находим инпут добавления фотографии
-    var uploadOverlay = document.querySelector(".upload-overlay"); //Находим оверлей редактирования фотографии
-    var overlayCancel = document.querySelector("#upload-cancel"); //Кнопка закрытия оверлея
-
-    function openOverlay(){  //Функция открытия оверлея
-        uploadOverlay.classList.remove("hidden");
-        document.addEventListener("keydown", onOverlayEscPress); //Добавление обработчика нажатия Esc
-    }
-    function closeOverlay(){
-        uploadOverlay.classList.add("hidden");
-        document.removeEventListener("keydown", onOverlayEscPress); //Удаление обработчика нажатия Esc
-        uploadFile.value = ""; //Обнуление инпута чтобы сработал change
-    }
-    function onOverlayEscPress(evt){ //Закрытие оверлея по Esc
-        if (evt.keyCode === 27){
-            closeOverlay();
-        }
-    }
-
-    uploadFile.addEventListener("change", openOverlay);  //При изменении состояния инпута(загрузки фотграфии) показать оверлей
-    overlayCancel.addEventListener("click", closeOverlay); //Закрыть оверлей при нажатии на кнопку
-      
+(function(){      
     //Перемещение ползунка обработки фотогрфии
 
     var effectPin = document.querySelector(".upload-effect-level-pin");     //Нашёл пин
@@ -72,28 +50,25 @@
         effectLevel.classList.add("hidden");
     }
     function addFilter(){
-        if (flagEffect === "none"){
-            imagePreview.style.filter = null;
-        }
-        if (flagEffect === "chrome"){
-            imagePreview.style.filter = "grayscale("+  currentPosition/455 +")";
-            imagePreview.classList.add("effect-chrome");
-        }
-        if (flagEffect === "sepia"){
-            imagePreview.style.filter = "sepia("+  currentPosition/455 +")";
-            imagePreview.classList.add("effect-sepia");
-        }
-        if (flagEffect === "marvin"){
-            imagePreview.style.filter = "invert("+  currentPosition*100/455 +"%)";
-            imagePreview.classList.add("effect-marvin");
-        }
-        if (flagEffect === "phobos"){
-            imagePreview.style.filter = "blur("+ (1 + 4*( currentPosition/455)) +"px)";
-            imagePreview.classList.add("effect-phobos");
-        }
-        if (flagEffect === "heat"){
-            imagePreview.style.filter = "brightness("+ (1 + 2*( currentPosition/455)) +")";
-            imagePreview.classList.add("effect-heat");
+        switch (flagEffect){
+            case "chrome":
+                imagePreview.style.filter = "grayscale("+  currentPosition/455 +")";
+                break;
+            case "sepia":
+                imagePreview.style.filter = "sepia("+  currentPosition/455 +")";
+                break;
+            case "marvin":
+                imagePreview.style.filter = "invert("+  currentPosition*100/455 +"%)";
+                break;
+            case "phobos":
+                imagePreview.style.filter = "blur("+ (1 + 4*( currentPosition/455)) +"px)";
+                break;
+            case "heat":
+                imagePreview.style.filter = "brightness("+ (1 + 2*( currentPosition/455)) +")";
+                break;
+
+            default:
+                imagePreview.style.filter = null;
         }
     }
     hidePin();
